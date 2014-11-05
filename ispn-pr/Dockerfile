@@ -11,7 +11,9 @@ RUN chown -R jboss:jboss /opt/jboss/.m2/
 USER jboss
 
 # use this to cache the maven artifacts for faster rebuilds
-RUN mvn clean install -DskipTests=true
+# Afterwards we delete any target directories as they just add bloat
+RUN mvn clean install -DskipTests=true \
+  && find . -name target -type d | xargs rm -rf
 
 COPY . /opt/jboss/
 
