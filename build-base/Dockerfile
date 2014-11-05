@@ -6,7 +6,12 @@ USER root
 
 RUN yum install -y \
   maven \
-  git
+  git \
+  && yum clean all
+
+# We set some defaults for git, this way we can do merges etc.
+RUN git config --global user.email jboss@redhat.com \
+    && git config --global user.name "Jboss Docker"
 
 USER jboss
 
